@@ -9,23 +9,4 @@ This repository provides a short demo of the **Cohap Volunteer App**.
 
 https://github.com/user-attachments/assets/984e6e29-d097-474f-adfe-77855aec4c88
 
-VolunteerAppV2/
-├── app/                  # ROUTING LAYER: Defines the "what" and "where".
-│   ├── (tabs)/
-│   │   ├── _layout.tsx   # Configures the tab bar UI and its screens
-│   │   ├── index.tsx     # Route for the first tab (Events)
-│   │   ├── profile.tsx   # Route for the third tab (Profile)
-│   │   └── timesheet.tsx # Route for the second tab (Timesheet)
-│   └── _layout.tsx       # Root layout for the app, provides global context
-│
-└── src/                  # IMPLEMENTATION LAYER: Defines the "how".
-    ├── components/       # Shared, reusable UI pieces (e.g., cards, buttons)
-    │   └── EventCard.tsx
-    ├── hooks/            # Reusable business logic and state management
-    │   └── useFormattedEvent.ts
-    ├── models/           # Data structures and TypeScript interfaces
-    │   └── EventDataModel.ts
-    └── views/            # Full-screen components that are rendered by routes
-        ├── EventsView.tsx
-        ├── ProfileView.tsx
-        └── TimesheetView.tsx
+<img width="636" height="450" alt="Screenshot 2025-11-21 at 5 37 34 PM" src="https://github.com/user-attachments/assets/9dbe3573-37f2-4a4f-be99-1062e6f13f2f" />
