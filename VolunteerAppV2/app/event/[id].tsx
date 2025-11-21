@@ -1,8 +1,6 @@
-// app/event/[id].tsx
 import { useLocalSearchParams } from 'expo-router';
 import { Text, View } from 'react-native';
-// ✅ CORRECT - relative or alias paths
-import { MOCK_EVENTS } from '../../src/data/MockEvents'; // Capital M
+import { MOCK_EVENTS } from '../../src/data/MockEvents';
 import EventDetailView from '../../src/views/EventDetailsView';
 
 export default function EventDetailRoute() {

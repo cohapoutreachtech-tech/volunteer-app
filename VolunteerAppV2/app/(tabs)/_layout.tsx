@@ -1,6 +1,6 @@
 
 
-import { Ionicons } from '@expo/vector-icons'; // Import the icon library
+import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
@@ -10,7 +10,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index" // This links to app/(tabs)/index.tsx
         options={{
-          title: 'Events', // The title in the header
+          title: 'Events', 
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="calendar" size={size} color={color} />
           ),
@@ -22,6 +22,15 @@ export default function TabLayout() {
           title: 'Timesheet',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="time" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="announcements" // This links to app/(tabs)/announcements.tsx
+        options={{
+          title: 'Announcements',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="chatbubbles" size={size} color={color} />
           ),
         }}
       />

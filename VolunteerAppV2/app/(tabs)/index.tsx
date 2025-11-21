@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import EventsView from '../../src/views/EventsView'; // Import your organized component
+import EventsView from '../../src/views/EventsView';
 
 /**
  * This is the ROUTE file for the first tab.

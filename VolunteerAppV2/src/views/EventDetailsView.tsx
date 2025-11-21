@@ -21,7 +21,7 @@ const EventDetailView: React.FC<EventDetailViewProps> = ({ event }) => {
         <Image 
           source={{ uri: formattedEvent.imageUrl }} 
           style={styles.heroImage}
-          resizeMode="cover"  // ← ADDED: Crops to fill, no stretching
+          resizeMode="cover"  
         />
       )}
       
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
   },
   heroImage: {
     width: '100%',
-    height: 300,  // ← INCREASED from 250 for better aspect ratio
-    backgroundColor: '#e0e0e0',  // ← ADDED: Shows gray while loading
+    height: 300,  
+    backgroundColor: '#e0e0e0', 
   },
   content: {
     padding: 16,

@@ -4,8 +4,7 @@ import React from 'react';
 import { FlatList, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import EventCard from '../components/EventCard';
-import { MOCK_EVENTS } from '../data/MockEvents'; // ← IMPORT from shared file
-
+import { MOCK_EVENTS } from '../data/MockEvents';
 const EventsView = () => {
   const router = useRouter();
 
