@@ -9,25 +9,23 @@ This repository provides a short demo of the **Cohap Volunteer App**.
 
 https://github.com/user-attachments/assets/984e6e29-d097-474f-adfe-77855aec4c88
 
-
-
 VolunteerAppV2/
-├── app/                  <-- ROUTING LAYER: Defines the "what" and "where".
+├── app/                  # ROUTING LAYER: Defines the "what" and "where".
 │   ├── (tabs)/
-│   │   ├── _layout.tsx   (Configures the tab bar UI)
-│   │   ├── index.tsx     (Route for the first tab)
-│   │   ├── profile.tsx   (Route for the third tab)
-│   │   └── timesheet.tsx (Route for the second tab)
-│   └── _layout.tsx       (Root layout for the entire app, provides global context)
+│   │   ├── _layout.tsx   # Configures the tab bar UI and its screens
+│   │   ├── index.tsx     # Route for the first tab (Events)
+│   │   ├── profile.tsx   # Route for the third tab (Profile)
+│   │   └── timesheet.tsx # Route for the second tab (Timesheet)
+│   └── _layout.tsx       # Root layout for the app, provides global context
 │
-└── src/                  <-- IMPLEMENTATION LAYER: Defines the "how".
-    ├── components/       (Shared, reusable UI pieces, e.g., cards, buttons)
+└── src/                  # IMPLEMENTATION LAYER: Defines the "how".
+    ├── components/       # Shared, reusable UI pieces (e.g., cards, buttons)
     │   └── EventCard.tsx
-    ├── hooks/            (Reusable logic)
+    ├── hooks/            # Reusable business logic and state management
     │   └── useFormattedEvent.ts
-    ├── models/           (Data structures and types)
+    ├── models/           # Data structures and TypeScript interfaces
     │   └── EventDataModel.ts
-    └── views/            (Full-screen components that are rendered by routes)
+    └── views/            # Full-screen components that are rendered by routes
         ├── EventsView.tsx
         ├── ProfileView.tsx
         └── TimesheetView.tsx
