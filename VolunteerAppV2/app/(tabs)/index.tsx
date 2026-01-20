@@ -1,12 +1,12 @@
 
 
 import React from 'react';
-import EventsView from '../../src/views/EventsView';
+import DashboardView from '../../src/views/DashboardView';
 
 /**
  * This is the ROUTE file for the first tab.
- * Its only job is to display the EventsView component.
+ * Its only job is to display the DashboardView component.
  */
 export default function EventsTabScreen() {
-  return <EventsView />;
+  return <DashboardView />;
 }

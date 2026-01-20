@@ -1,6 +1,7 @@
 
 //EventDataModel.ts
 
+
 export interface Event {
     id: string;
     eventTitle: string;

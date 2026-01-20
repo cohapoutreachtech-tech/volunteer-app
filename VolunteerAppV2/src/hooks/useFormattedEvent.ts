@@ -1,9 +1,12 @@
+import { useMemo } from 'react';
 import { Event } from '../models/EventDataModel';
 
 /**
  * A simple hook that takes raw event data and formats it for the screen.
  */
 export const useFormattedEvent = (event: Event) => {
+
+  const formattedData = useMemo(() => {
   const displayDate = new Date(event.date).toLocaleTimeString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -23,4 +26,6 @@ export const useFormattedEvent = (event: Event) => {
     overviewInfo: event.overviewInfo,
     additionalInfo: event.additionalInfo
   };
+}, [event]);
+return formattedData;
 };

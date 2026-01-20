@@ -3,7 +3,7 @@ import { Event } from '../models/EventDataModel';
 
 export const MOCK_EVENTS: Event[] = [
   {
-    id: '1',
+    id: 'event-001',
     eventTitle: 'Community Garden Cleanup',
     eventImageURL: 'https://picsum.photos/seed/garden/800/600',  // ← Higher res
     overviewInfo: 'Join us for our annual garden cleanup day! We will be weeding, planting new flowers, and tidying up the community space. Great for all ages.',
@@ -12,7 +12,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'Central Park Community Garden',
   },
   {
-    id: '2',
+    id: 'event-002',
     eventTitle: 'Tech Workshop for Seniors',
     eventImageURL: 'https://picsum.photos/seed/tech/800/600',  // ← Higher res
     overviewInfo: 'A free workshop to help seniors get more comfortable with their smartphones and tablets.',

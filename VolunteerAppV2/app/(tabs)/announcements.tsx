@@ -1,22 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import AnnouncementsView from '../../src/views/AnnouncementsView';
 
 export default function AnnouncementsScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Announcements Screen</Text>
-    </View>
-  );
+  return <AnnouncementsView />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
