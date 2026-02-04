@@ -1,71 +1,84 @@
 // app/(onboarding)/index.tsx
 import React from "react";
 import { useRouter } from "expo-router";
-import { SafeAreaView, View, Text, TextInput, StyleSheet, Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, TextInput, StyleSheet, Pressable, Platform, Image } from "react-native";
+import { THEME } from "./theme";
+import { ONBOARDING_SPACING } from "./layout";
+
+const FONT = Platform.select({ ios: "System", android: "Roboto", default: "System" });
 
 export default function Welcome() {
     const router = useRouter();
 
     return (
-        <SafeAreaView style={styles.screen}>
-            <View style={styles.hero}>
-                <Text style={styles.title}>COHAP Volunteers</Text>
-                <Text style={styles.subtitle}>Sign in, or start your registration.</Text>
-            </View>
+        <SafeAreaView style={styles.screen} edges={["top", "left", "right"]}>
+            <View style={styles.content}>
+                <View style={styles.hero}>
+                    <Image
+                        source={require("../../assets/images/CohapLogo.png")}
+                        style={styles.logo}
+                        resizeMode="contain"
+                        accessibilityLabel="Cohap Logo"
+                    />
+                    <Text style={styles.title}>Cohap Outreach Corporation</Text>
+                    <Text style={styles.subtitle}>Volunteer Portal</Text>
+                </View>
 
-            <View style={styles.card}>
-                <Text style={styles.label}>Email</Text>
-                <TextInput style={styles.input} placeholder="name@email.com" />
+                <View style={styles.form}>
+                    <Text style={styles.label}>Email</Text>
+                    <TextInput style={styles.input} placeholder="name@email.com" placeholderTextColor={THEME.textSub} />
 
-                <Text style={styles.label}>Password</Text>
-                <TextInput style={styles.input} placeholder="••••••••" secureTextEntry />
+                    <Text style={styles.label}>Password</Text>
+                    <TextInput style={styles.input} placeholder="••••••••" placeholderTextColor={THEME.textSub} secureTextEntry />
 
-                <Pressable style={styles.primary} onPress={() => router.replace("/(tabs)")}>
-                    <Text style={styles.primaryText}>Sign In</Text>
-                </Pressable>
+                    <Pressable style={styles.primary} onPress={() => router.replace("/(tabs)")}>
+                        <Text style={styles.primaryText}>Sign In</Text>
+                    </Pressable>
 
-                <Pressable style={styles.secondary} onPress={() => router.push("/(onboarding)/create-account")}>
-                    <Text style={styles.secondaryText}>Create an account</Text>
-                </Pressable>
+                    <Pressable style={styles.secondary} onPress={() => router.push("/(onboarding)/create-account")}>
+                        <Text style={styles.secondaryText}>Create An Account</Text>
+                    </Pressable>
+                </View>
             </View>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    screen: { flex: 1, backgroundColor: "#F4F6FB", padding: 16 },
-    hero: { paddingVertical: 28, paddingHorizontal: 4 },
-    title: { fontSize: 32, fontWeight: "800", color: "#0F172A" },
-    subtitle: { marginTop: 8, fontSize: 15, color: "#64748B" },
-
-    card: {
-        backgroundColor: "#FFF",
-        borderRadius: 24,
-        padding: 16,
-        shadowColor: "#000",
-        shadowOpacity: 0.08,
-        shadowRadius: 18,
-        shadowOffset: { width: 0, height: 10 },
-        elevation: 3,
+    screen: { flex: 1, backgroundColor: THEME.bg, padding: ONBOARDING_SPACING.outerPadding },
+    content: {
+        paddingTop: ONBOARDING_SPACING.contentPaddingTop,
+        paddingBottom: ONBOARDING_SPACING.contentPaddingBottom,
+        paddingHorizontal: ONBOARDING_SPACING.contentPaddingHorizontal,
     },
-    label: { fontSize: 13, fontWeight: "700", color: "#312e81", marginTop: 12, marginBottom: 6 },
+    hero: { paddingTop: 20, paddingBottom: 18, alignItems: "center" },
+    logo: { width: 125, height: 125, marginBottom: 14 },
+    title: { fontSize: 24, fontWeight: "800", color: THEME.textMain, fontFamily: FONT, textAlign: "center" },
+    subtitle: { marginTop: 8, fontSize: 16, color: THEME.textSub, fontFamily: FONT, textAlign: "center" },
+
+    form: { marginTop: 18 },
+
+    label: { fontSize: 13, fontWeight: "700", color: THEME.textMain, marginTop: 14, marginBottom: 8, fontFamily: FONT },
     input: {
-        backgroundColor: "#F8FAFC",
+        backgroundColor: THEME.card,
         borderWidth: 1,
-        borderColor: "#E5E7EB",
-        borderRadius: 14,
-        paddingHorizontal: 12,
-        paddingVertical: 12,
-        fontSize: 15,
+        borderColor: THEME.border,
+        borderRadius: 16,
+        paddingHorizontal: 14,
+        paddingVertical: 14,
+        fontSize: 16,
+        fontFamily: FONT,
+        color: THEME.textMain,
     },
     primary: {
-        marginTop: 16,
-        backgroundColor: "#312e81",
-        paddingVertical: 14,
+        marginTop: 18,
+        backgroundColor: THEME.primary,
+        paddingVertical: 16,
         borderRadius: 16,
         alignItems: "center",
     },
-    primaryText: { color: "#FFF", fontWeight: "800", fontSize: 16 },
+    primaryText: { color: "#FFF", fontWeight: "800", fontSize: 16, fontFamily: FONT },
     secondary: { marginTop: 12, paddingVertical: 12, borderRadius: 16, alignItems: "center" },
-    secondaryText: { color: "#312e81", fontWeight: "700" },
+    secondaryText: { color: THEME.primary, fontWeight: "700", fontFamily: FONT },
 });

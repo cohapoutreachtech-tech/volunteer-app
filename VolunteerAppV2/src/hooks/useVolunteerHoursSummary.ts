@@ -1,5 +1,5 @@
 // src/hooks/useVolunteerHoursSummary.ts
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { VolunteerHoursSummary } from '../models/VolunteerHours';
 import { volunteerHoursRepository } from '../repositories';
 
@@ -17,8 +17,16 @@ export function useVolunteerHoursSummary(
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+    // Prevent stale async completions from overwriting newer state.
+    // Also avoid setting state after unmount.
+    const requestSeqRef = useRef(0);
+
     const fetchData = useCallback(async () => {
+        const requestSeq = (requestSeqRef.current += 1);
+
         if (!volunteerId) {
+            if (requestSeq !== requestSeqRef.current) return;
+
             setSummary(null);
             setIsLoading(false);
             setError('Missing volunteer id');
@@ -30,18 +38,28 @@ export function useVolunteerHoursSummary(
             setError(null);
 
             const result = await volunteerHoursRepository.getSummaryByVolunteerId(volunteerId);
+
+            if (requestSeq !== requestSeqRef.current) return;
             setSummary(result);
         } catch (e) {
+            if (requestSeq !== requestSeqRef.current) return;
+
             const message = e instanceof Error ? e.message : 'Failed to load hours summary';
             setError(message);
             setSummary(null);
         } finally {
-            setIsLoading(false);
+            if (requestSeq === requestSeqRef.current) {
+                setIsLoading(false);
+            }
         }
     }, [volunteerId]);
 
     useEffect(() => {
         void fetchData();
+
+        return () => {
+            requestSeqRef.current += 1;
+        };
     }, [fetchData]);
 
     return {

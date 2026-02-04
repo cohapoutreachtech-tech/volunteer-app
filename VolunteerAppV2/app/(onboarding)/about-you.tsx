@@ -1,9 +1,14 @@
 // app/(onboarding)/about-you.tsx
 import React from "react";
 import { useRouter } from "expo-router";
-import { SafeAreaView, View, ScrollView, Text, TextInput, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { View, ScrollView, StyleSheet, Platform, TextInput } from "react-native";
 import { OnboardingContext } from "./_layout";
 import { ProgressDots, ScreenHeader, SectionTitle, PillChoice, ToggleRow, FooterNav } from "./ui";
+import { THEME } from "./theme";
+import { ONBOARDING_SPACING } from "./layout";
+
+const FONT = Platform.select({ ios: "System", android: "Roboto", default: "System" });
 
 export default function AboutYou() {
     const router = useRouter();
@@ -13,23 +18,23 @@ export default function AboutYou() {
     const { draft, setDraft } = ctx;
 
     return (
-        <SafeAreaView style={styles.screen}>
+        <SafeAreaView style={styles.screen} edges={["top", "left", "right"]}>
             <ProgressDots current={1} />
 
-            <ScrollView contentContainerStyle={styles.card} showsVerticalScrollIndicator={false}>
-                <ScreenHeader title="About you" subtitle="Basic details to get you registered." />
+            <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+                <ScreenHeader title="About You" subtitle="Basic Details To Get You Registered" />
 
                 <SectionTitle>Personal details</SectionTitle>
                 <View style={styles.row}>
                     <TextInput
                         style={[styles.input, { flex: 1 }]}
-                        placeholder="First name"
+                        placeholder="First Name"
                         value={draft.firstName ?? ""}
                         onChangeText={(t) => setDraft((d) => ({ ...d, firstName: t }))}
                     />
                     <TextInput
                         style={[styles.input, { flex: 1 }]}
-                        placeholder="Last name"
+                        placeholder="Last Name"
                         value={draft.lastName ?? ""}
                         onChangeText={(t) => setDraft((d) => ({ ...d, lastName: t }))}
                     />
@@ -43,9 +48,9 @@ export default function AboutYou() {
                         onPress={() => setDraft((d) => ({ ...d, volunteerAs: "Individual" }))}
                     />
                     <PillChoice
-                        label="Company rep"
-                        selected={draft.volunteerAs === "CompanyRep"}
-                        onPress={() => setDraft((d) => ({ ...d, volunteerAs: "CompanyRep" }))}
+                        label="Company/Organization"
+                        selected={draft.volunteerAs === "Company/Organization"}
+                        onPress={() => setDraft((d) => ({ ...d, volunteerAs: "Company/Organization" }))}
                     />
                 </View>
 
@@ -69,7 +74,7 @@ export default function AboutYou() {
 
                 <SectionTitle>T-shirt size</SectionTitle>
                 <View style={styles.pills}>
-                    {["XS", "S", "M", "L", "XL", "2XL", "3XL"].map((s) => (
+                    {["XS", "S", "M", "L", "XL", "2XL", "3XL","4XL","5XL"].map((s) => (
                         <PillChoice
                             key={s}
                             label={s}
@@ -82,20 +87,20 @@ export default function AboutYou() {
                 <SectionTitle>Social Media (optional)</SectionTitle>
                 <TextInput
                     style={styles.input}
-                    placeholder="Facebook handle"
+                    placeholder="Facebook Handle"
                     value={draft.facebook ?? ""}
                     onChangeText={(t) => setDraft((d) => ({ ...d, facebook: t }))}
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Instagram handle"
+                    placeholder="Instagram Handle"
                     value={draft.instagram ?? ""}
                     onChangeText={(t) => setDraft((d) => ({ ...d, instagram: t }))}
                 />
 
                 <SectionTitle>Notifications</SectionTitle>
                 <ToggleRow
-                    label="Text me updates and opportunities"
+                    label="Text Me Updates and Opportunities"
                     value={!!draft.textOptIn}
                     onChange={(v) => setDraft((d) => ({ ...d, textOptIn: v }))}
                 />
@@ -111,16 +116,11 @@ export default function AboutYou() {
 }
 
 const styles = StyleSheet.create({
-    screen: { flex: 1, backgroundColor: "#F4F6FB", padding: 16 },
-    card: {
-        backgroundColor: "#FFF",
-        borderRadius: 24,
-        padding: 16,
-        shadowColor: "#000",
-        shadowOpacity: 0.08,
-        shadowRadius: 18,
-        shadowOffset: { width: 0, height: 10 },
-        elevation: 3,
+    screen: { flex: 1, backgroundColor: THEME.bg, padding: ONBOARDING_SPACING.outerPadding },
+    content: {
+        paddingTop: ONBOARDING_SPACING.contentPaddingTop,
+        paddingBottom: ONBOARDING_SPACING.contentPaddingBottom,
+        paddingHorizontal: ONBOARDING_SPACING.contentPaddingHorizontal,
     },
     row: { flexDirection: "row", gap: 10 },
     input: {
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 12,
         fontSize: 15,
+        fontFamily: FONT,
     },
     pills: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 8 },
 });

@@ -1,13 +1,18 @@
 // app/(onboarding)/availability.tsx
 import React from "react";
 import { useRouter } from "expo-router";
-import { SafeAreaView, ScrollView, TextInput, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView, StyleSheet, View, Platform, TextInput } from "react-native";
 import { OnboardingContext } from "./_layout";
 import { ProgressDots, ScreenHeader, SectionTitle, CheckboxRow, PillChoice, FooterNav } from "./ui";
+import { THEME } from "./theme";
+import { ONBOARDING_SPACING } from "./layout";
 
-const TIMES = ["Morning (8–12)", "Afternoon (12–4)", "Evening (4–8)"];
-const DAYS = ["Fridays", "Saturdays", "Sundays"];
-const COMFORT = ["Children", "Seniors", "General public", "Animals", "Prefer not to say"];
+const TIMES = ["Morning (8am-12pm)", "Afternoon (12pm-4pm)", "Evening (4pm-8pm)"];
+const DAYS = ["Weekdays","Fridays", "Saturdays", "Sundays"];
+const COMFORT = ["Children", "Seniors", "General Public", "Animals", "Prefer Not To Say"];
+
+const FONT = Platform.select({ ios: "System", android: "Roboto", default: "System" });
 
 export default function Availability() {
     const router = useRouter();
@@ -25,28 +30,28 @@ export default function Availability() {
     };
 
     return (
-        <SafeAreaView style={styles.screen}>
+        <SafeAreaView style={styles.screen} edges={["top", "left", "right"]}>
             <ProgressDots current={3} />
 
-            <ScrollView contentContainerStyle={styles.card} showsVerticalScrollIndicator={false}>
-                <ScreenHeader title="Availability" subtitle="When and where do you prefer to volunteer?" />
+            <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+                <ScreenHeader title="Availability" subtitle="When And Where Do You Prefer To Volunteer?" />
 
-                <SectionTitle>Time of day (select all)</SectionTitle>
+                <SectionTitle>Time Of Day (Select All)</SectionTitle>
                 {TIMES.map((t) => (
                     <CheckboxRow key={t} label={t} value={!!draft.timeOfDay?.includes(t)} onChange={() => toggleList("timeOfDay", t)} />
                 ))}
 
-                <SectionTitle>Days (select all)</SectionTitle>
+                <SectionTitle>Days (Select All)</SectionTitle>
                 {DAYS.map((d0) => (
                     <CheckboxRow key={d0} label={d0} value={!!draft.days?.includes(d0)} onChange={() => toggleList("days", d0)} />
                 ))}
 
-                <SectionTitle>Assignment preference</SectionTitle>
+                <SectionTitle>Assignment Preference</SectionTitle>
                 <View style={styles.pills}>
                     {[
                         { k: "Indoor", label: "Indoor" },
                         { k: "Outdoor", label: "Outdoor" },
-                        { k: "NoPreference", label: "No preference" },
+                        { k: "NoPreference", label: "No Preference" },
                     ].map((p) => (
                         <PillChoice
                             key={p.k}
@@ -57,15 +62,15 @@ export default function Availability() {
                     ))}
                 </View>
 
-                <SectionTitle>Comfort level (select all)</SectionTitle>
+                <SectionTitle>Comfort Level (Select All)</SectionTitle>
                 {COMFORT.map((c) => (
                     <CheckboxRow key={c} label={c} value={!!draft.comfort?.includes(c)} onChange={() => toggleList("comfort", c)} />
                 ))}
 
-                <SectionTitle>Accommodations (optional)</SectionTitle>
+                <SectionTitle>Accommodations (Optional)</SectionTitle>
                 <TextInput
                     style={[styles.input, styles.textArea]}
-                    placeholder="e.g., wheelchair access, dietary restrictions…"
+                    placeholder="E.g., Wheelchair Access, Dietary Restrictions…"
                     multiline
                     value={draft.accommodations ?? ""}
                     onChangeText={(t) => setDraft((d) => ({ ...d, accommodations: t }))}
@@ -78,16 +83,11 @@ export default function Availability() {
 }
 
 const styles = StyleSheet.create({
-    screen: { flex: 1, backgroundColor: "#F4F6FB", padding: 16 },
-    card: {
-        backgroundColor: "#FFF",
-        borderRadius: 24,
-        padding: 16,
-        shadowColor: "#000",
-        shadowOpacity: 0.08,
-        shadowRadius: 18,
-        shadowOffset: { width: 0, height: 10 },
-        elevation: 3,
+    screen: { flex: 1, backgroundColor: THEME.bg, padding: ONBOARDING_SPACING.outerPadding },
+    content: {
+        paddingTop: ONBOARDING_SPACING.contentPaddingTop,
+        paddingBottom: ONBOARDING_SPACING.contentPaddingBottom,
+        paddingHorizontal: ONBOARDING_SPACING.contentPaddingHorizontal,
     },
     pills: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 8 },
     input: {
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 12,
         fontSize: 15,
+        fontFamily: FONT,
     },
     textArea: { minHeight: 110, textAlignVertical: "top" },
 });

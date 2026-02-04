@@ -1,7 +1,6 @@
 // src/views/ProfileView.tsx
 
-import React, { useMemo } from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import type { Volunteer } from '../models/Volunteer';
 import ProfileHeaderCard from '../components/profile/ProfileHeaderCard';
 import InfoRowCard from '../components/profile/InfoRowCard';
@@ -15,32 +14,38 @@ type Props = {
  * - No hooks
  * - No repositories
  * - Just layout + formatting
+ *
+ * Depends on n
  */
 export default function ProfileView({ volunteer }: Props) {
-  const fullName = useMemo(() => {
-    const first = volunteer.firstName?.trim() ?? '';
-    const last = volunteer.lastName?.trim() ?? '';
-    return [first, last].filter(Boolean).join(' ') || 'Volunteer';
-  }, [volunteer.firstName, volunteer.lastName]);
+  const first = volunteer.firstName?.trim() ?? '';
+  const last = volunteer.lastName?.trim() ?? '';
+  const fullName = [first, last].filter(Boolean).join(' ') || 'Volunteer';
 
-  const dobLabel = useMemo(() => {
-    if (!volunteer.dateOfBirth) return undefined;
-    const d = new Date(volunteer.dateOfBirth);
-    if (Number.isNaN(d.getTime())) return undefined;
-    return `DOB: ${d.toLocaleDateString('en-US', {
+
+  const dobLabel = (() => {
+    const raw = volunteer.dateOfBirth;
+    if (!raw) return undefined;
+
+    const date = new Date(raw);
+    if (Number.isNaN(date.getTime())) return undefined;
+
+    const formatted = date.toLocaleDateString('en-US', {
       month: 'long',
       day: 'numeric',
       year: 'numeric',
-    })}`;
-  }, [volunteer.dateOfBirth]);
-// Approved hours formatting
-  const hoursLabel = useMemo(() => {
-    const hrs = volunteer.totalHoursWorked;
-    if (typeof hrs !== 'number') return 'Hours: —';
+    });
 
-    const formatted = Number.isInteger(hrs) ? `${hrs}` : `${hrs.toFixed(1)}`;
-    return `${formatted} Approved Hours`;
-  }, [volunteer.totalHoursWorked]);
+    return `DOB: ${formatted}`;
+  })();
+
+
+  // Approved hours formatting
+  const hrs = volunteer.totalHoursWorked;
+  const hoursLabel =
+    typeof hrs !== 'number'
+      ? 'Hours: —'
+      : `${Number.isInteger(hrs) ? `${hrs}` : `${hrs.toFixed(1)}`} Approved Hours`;
 
   // Use an optional avatar later; for now a placeholder
   const avatarUrl =

@@ -5,7 +5,7 @@ export const MOCK_EVENTS: Event[] = [
   {
     id: 'event-001',
     eventTitle: 'Community Garden Cleanup',
-    eventImageURL: 'https://picsum.photos/seed/garden/800/600',  // ← Higher res
+    eventImageURL: 'https://picsum.photos/seed/garden/800/600',
     overviewInfo: 'Join us for our annual garden cleanup day! We will be weeding, planting new flowers, and tidying up the community space. Great for all ages.',
     additionalInfo: 'Please bring your own gardening gloves. Water and snacks will be provided.',
     date: '2025-11-15T09:30:00Z',

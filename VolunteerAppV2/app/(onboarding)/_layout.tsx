@@ -7,7 +7,7 @@ export type OnboardingDraft = {
     // AboutYou
     firstName?: string;
     lastName?: string;
-    volunteerAs?: "Individual" | "CompanyRep";
+    volunteerAs?: "Individual" | "Company/Organization";
     email?: string;
     phone?: string;
     dob?: string;
