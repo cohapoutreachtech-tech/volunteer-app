@@ -4,6 +4,7 @@ import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import type { Volunteer } from '../models/Volunteer';
 import ProfileHeaderCard from '../components/profile/ProfileHeaderCard';
 import InfoRowCard from '../components/profile/InfoRowCard';
+import { TAB_BAR_OVERLAY_HEIGHT } from '../components/navigation/CustomTabBar';
 
 type Props = {
   volunteer: Volunteer;
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-    paddingBottom: 28,
+    paddingBottom: TAB_BAR_OVERLAY_HEIGHT,
   },
   heroCard: {
     backgroundColor: '#FFFFFF',

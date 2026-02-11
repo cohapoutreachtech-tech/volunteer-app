@@ -9,6 +9,7 @@ import {
     Alert,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { TAB_BAR_OVERLAY_HEIGHT } from '../components/navigation/CustomTabBar';
 
 // --- 1. THEME CONSTANTS ---
 const THEME = {
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
     },
     listContent: {
         paddingHorizontal: 12,
-        paddingBottom: 24,
+        paddingBottom: TAB_BAR_OVERLAY_HEIGHT,
     },
 
     screenHeader: {

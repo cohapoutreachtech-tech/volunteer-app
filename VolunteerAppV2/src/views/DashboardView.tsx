@@ -3,6 +3,7 @@ import React from 'react';
 import { FlatList, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import EventCard from '../components/EventCard';
 import { useEvents } from '../hooks/useEvents';
+import { TAB_BAR_OVERLAY_HEIGHT } from '../components/navigation/CustomTabBar';
 
 const DashboardView = () => {
   const router = useRouter();
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F4F6',
   },
   listContent: {
-    paddingBottom: 20,
+    paddingBottom: TAB_BAR_OVERLAY_HEIGHT,
   },
   headerContainer: {
     paddingHorizontal: 20,

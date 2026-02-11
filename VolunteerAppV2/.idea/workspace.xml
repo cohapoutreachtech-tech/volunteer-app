@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67207e6a-479c-41a0-b1cc-f8c5c7888c2a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/navigation/CustomTabBar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/MockEvents.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/MockEvents.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/AnnouncementsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/AnnouncementsView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/DashboardView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/DashboardView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/ProfileView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ProfileView.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/ShiftsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ShiftsView.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -120,7 +126,7 @@
       <workItem from="1770323853269" duration="5308000" />
       <workItem from="1770757531854" duration="2069000" />
       <workItem from="1770786164201" duration="79000" />
-      <workItem from="1770800552988" duration="8288000" />
+      <workItem from="1770800552988" duration="9413000" />
     </task>
     <servers />
   </component>

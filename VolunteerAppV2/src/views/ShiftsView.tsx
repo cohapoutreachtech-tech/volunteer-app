@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { THEME as APP_THEME } from '../../app/(onboarding)/theme';
 import type { VolunteerHoursEntry } from '../models/VolunteerHours';
+import { TAB_BAR_OVERLAY_HEIGHT } from '../components/navigation/CustomTabBar';
 
 // --- TYPES ---
 type TimerState = {
@@ -486,6 +487,7 @@ const styles = StyleSheet.create({
     scrollContent: {
         paddingHorizontal: 20,
         paddingTop: 16,
+        paddingBottom: TAB_BAR_OVERLAY_HEIGHT,
     },
 
     // Title
