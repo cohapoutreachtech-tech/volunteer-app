@@ -58,7 +58,7 @@ export default function SignatureReview() {
 
                     <SectionTitle>Attestation</SectionTitle>
                     <CheckboxRow
-                        label="I affirm I am not a registered offender and have read the statement above."
+                        label="I affirm I am not a registered sexual offender and have read the statement above."
                         value={!!draft.attested}
                         onChange={(v) => setDraft((d) => ({ ...d, attested: v }))}
                     />

@@ -21,7 +21,7 @@ export default function Welcome() {
                         resizeMode="contain"
                         accessibilityLabel="Cohap Logo"
                     />
-                    <Text style={styles.title}>Cohap Outreach Corporation</Text>
+                    <Text style={styles.title}>COHAP OUTREACH CORPORATION</Text>
                     <Text style={styles.subtitle}>Volunteer Portal</Text>
                 </View>
 
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
     },
     hero: { paddingTop: 20, paddingBottom: 18, alignItems: "center" },
     logo: { width: 125, height: 125, marginBottom: 14 },
-    title: { fontSize: 24, fontWeight: "800", color: THEME.textMain, fontFamily: FONT, textAlign: "center" },
-    subtitle: { marginTop: 8, fontSize: 16, color: THEME.textSub, fontFamily: FONT, textAlign: "center" },
+    title: { fontSize: 24, fontWeight: "800", color: THEME.primary, fontFamily: FONT, textAlign: "center" },
+    subtitle: { marginTop: 8, fontSize: 16, color: THEME.primary, fontFamily: FONT, textAlign: "center" },
 
     form: { marginTop: 18 },
 

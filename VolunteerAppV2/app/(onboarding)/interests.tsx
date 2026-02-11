@@ -124,7 +124,7 @@ export default function Interests() {
                     onChangeText={(t) => setDraft((d) => ({ ...d, strengths: t }))}
                 />
 
-                <SectionTitle>List relevant certifications or special training</SectionTitle>
+                <SectionTitle>List relevant certifications or special training.</SectionTitle>
                 <TextInput
                     style={[styles.input, styles.textArea]}
                     placeholder="First Aid, CPR, Etc."

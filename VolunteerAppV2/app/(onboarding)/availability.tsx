@@ -36,12 +36,12 @@ export default function Availability() {
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
                 <ScreenHeader title="Availability" subtitle="When And Where Do You Prefer To Volunteer?" />
 
-                <SectionTitle>Time Of Day (Select All)</SectionTitle>
+                <SectionTitle>Time Of Day (Please Select)</SectionTitle>
                 {TIMES.map((t) => (
                     <CheckboxRow key={t} label={t} value={!!draft.timeOfDay?.includes(t)} onChange={() => toggleList("timeOfDay", t)} />
                 ))}
 
-                <SectionTitle>Days (Select All)</SectionTitle>
+                <SectionTitle>Days (Please Select)</SectionTitle>
                 {DAYS.map((d0) => (
                     <CheckboxRow key={d0} label={d0} value={!!draft.days?.includes(d0)} onChange={() => toggleList("days", d0)} />
                 ))}
@@ -62,7 +62,7 @@ export default function Availability() {
                     ))}
                 </View>
 
-                <SectionTitle>Comfort Level (Select All)</SectionTitle>
+                <SectionTitle>Comfort Level (Please Select)</SectionTitle>
                 {COMFORT.map((c) => (
                     <CheckboxRow key={c} label={c} value={!!draft.comfort?.includes(c)} onChange={() => toggleList("comfort", c)} />
                 ))}

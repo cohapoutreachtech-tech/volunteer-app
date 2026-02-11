@@ -15,9 +15,9 @@ const DashboardView = () => {
   // The Header Component (Welcome Message)
   const DashboardHeader = () => (
       <View style={styles.headerContainer}>
-        <Text style={styles.headerTitle}>Volunteer Dashboard</Text>
+        <Text style={styles.headerTitle}>Upcoming Events</Text>
         <Text style={styles.headerSubtitle}>
-          Welcome back! Here are the upcoming events this week.
+          Welcome back!
         </Text>
       </View>
   );
