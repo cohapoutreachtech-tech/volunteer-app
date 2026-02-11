@@ -54,6 +54,9 @@ const TOKENS = {
     pendingBg: '#fffbeb',
 } as const;
 
+// Keep pulse timing consistent across the running timer UI.
+const PULSE_MS = 1250;
+
 // --- HELPERS ---
 function formatHMS(totalSeconds: number): { h: string; m: string; s: string } {
     const t = Math.max(0, Math.floor(totalSeconds));
@@ -77,6 +80,17 @@ function formatDateLabel(dateValue: unknown): string {
         month: 'short',
         day: 'numeric',
         year: 'numeric',
+    });
+}
+
+function formatTimeLabel(timeValue: unknown): string {
+    if (!timeValue) return '—';
+    const d = new Date(String(timeValue));
+    if (Number.isNaN(d.getTime())) return '—';
+
+    return d.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
     });
 }
 
@@ -132,7 +146,9 @@ function HistoryRow({ entry, variant }: { entry: VolunteerHoursEntry; variant: '
     const isApproved = variant === 'approved';
 
     const dateStr = formatDateLabel(entry.shiftDate);
-    const timeRange = `${entry.clockIn ?? '—'} – ${entry.clockOut ?? '—'}`;
+    const startTime = formatTimeLabel(entry.clockIn);
+    const endTime = formatTimeLabel(entry.clockOut);
+    const timeRange = `${startTime} – ${endTime}`;
 
     const hoursText = entry.totalHours ? `${Number(entry.totalHours).toFixed(2)} hrs` : '--';
 
@@ -175,17 +191,18 @@ function TimerDisplay({ elapsedSeconds }: { elapsedSeconds: number }) {
     const colonAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
+        // Match RunningTimerHero glow pulse timing for a synced feel.
         const anim = Animated.loop(
             Animated.sequence([
                 Animated.timing(colonAnim, {
                     toValue: 1,
-                    duration: 500,
+                    duration: PULSE_MS,
                     easing: Easing.inOut(Easing.ease),
                     useNativeDriver: true,
                 }),
                 Animated.timing(colonAnim, {
                     toValue: 0,
-                    duration: 500,
+                    duration: PULSE_MS,
                     easing: Easing.inOut(Easing.ease),
                     useNativeDriver: true,
                 }),
@@ -195,17 +212,24 @@ function TimerDisplay({ elapsedSeconds }: { elapsedSeconds: number }) {
         return () => colonAnim.stopAnimation();
     }, [colonAnim]);
 
-    const colonOpacity = colonAnim.interpolate({ inputRange: [0, 1], outputRange: [1, 0.4] });
+    // Softer range so it feels like a pulse (and matches the ring glow better) vs a blink.
+    const colonOpacity = colonAnim.interpolate({ inputRange: [0, 1], outputRange: [1, 0.55] });
 
     const t = formatHMS(elapsedSeconds);
 
     return (
         <View style={styles.timerDigitsRow}>
-            <Text style={styles.timerDigit}>{t.h}</Text>
-            <Animated.Text style={[styles.timerColon, { opacity: colonOpacity }]}>:</Animated.Text>
-            <Text style={styles.timerDigit}>{t.m}</Text>
-            <Animated.Text style={[styles.timerColon, { opacity: colonOpacity }]}>:</Animated.Text>
-            <Text style={styles.timerDigit}>{t.s}</Text>
+            {/*
+              Use a fixed-width, absolutely-centered container so the timer is centered in the ring
+              regardless of glyph quirks on different iOS fonts.
+            */}
+            <View style={styles.timerDigitsCenter}>
+                <Text style={styles.timerDigit}>{t.h}</Text>
+                <Animated.Text style={[styles.timerColon, { opacity: colonOpacity }]}>:</Animated.Text>
+                <Text style={styles.timerDigit}>{t.m}</Text>
+                <Animated.Text style={[styles.timerColon, { opacity: colonOpacity }]}>:</Animated.Text>
+                <Text style={styles.timerDigit}>{t.s}</Text>
+            </View>
         </View>
     );
 }
@@ -218,13 +242,13 @@ function RunningTimerHero({ elapsedSeconds, startedLabel }: { elapsedSeconds: nu
             Animated.sequence([
                 Animated.timing(glow, {
                     toValue: 1,
-                    duration: 1250,
+                    duration: PULSE_MS,
                     easing: Easing.inOut(Easing.ease),
                     useNativeDriver: true,
                 }),
                 Animated.timing(glow, {
                     toValue: 0,
-                    duration: 1250,
+                    duration: PULSE_MS,
                     easing: Easing.inOut(Easing.ease),
                     useNativeDriver: true,
                 }),
@@ -611,9 +635,19 @@ const styles = StyleSheet.create({
     },
 
     timerDigitsRow: {
-        flexDirection: 'row',
+        // container is the same size as the inner ring, so we can center absolutely
+        width: 132,
+        height: 132,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    timerDigitsCenter: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
     },
     timerDigit: {
         fontSize: 38,
@@ -621,13 +655,16 @@ const styles = StyleSheet.create({
         color: TOKENS.textMain,
         fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
         fontVariant: ['tabular-nums'],
+        includeFontPadding: false,
+        textAlignVertical: 'center',
     },
     timerColon: {
         fontSize: 38,
         fontWeight: '800',
         color: TOKENS.textMain,
-        marginHorizontal: 2,
         fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+        includeFontPadding: false,
+        textAlignVertical: 'center',
     },
 
     startedAtLine: {
