@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import EventCard from '../components/EventCard';
 import { useEvents } from '../hooks/useEvents';
 import { TAB_BAR_OVERLAY_HEIGHT } from '../components/navigation/CustomTabBar';
+import TabScreenHeader from '../components/navigation/TabScreenHeader';
 
 const DashboardView = () => {
   const router = useRouter();
@@ -13,14 +14,8 @@ const DashboardView = () => {
     router.push(`/event/${eventId}`);
   };
 
-  // The Header Component (Welcome Message)
   const DashboardHeader = () => (
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerTitle}>Upcoming Events</Text>
-        <Text style={styles.headerSubtitle}>
-          Welcome back!
-        </Text>
-      </View>
+    <TabScreenHeader title="Dashboard" subtitle="Upcoming events" />
   );
 
   if (isLoading) {
@@ -67,26 +62,6 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingBottom: TAB_BAR_OVERLAY_HEIGHT,
-  },
-  headerContainer: {
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 20,
-    backgroundColor: '#fff',
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
-  },
-  headerTitle: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: '#111827',
-    marginBottom: 8,
-  },
-  headerSubtitle: {
-    fontSize: 15,
-    color: '#6B7280',
-    lineHeight: 22,
   },
   center: {
     flex: 1,

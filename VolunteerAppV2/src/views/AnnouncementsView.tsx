@@ -8,8 +8,8 @@ import {
     View,
     Alert,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TAB_BAR_OVERLAY_HEIGHT } from '../components/navigation/CustomTabBar';
+import TabScreenHeader from '../components/navigation/TabScreenHeader';
 
 // --- 1. THEME CONSTANTS ---
 const THEME = {
@@ -138,26 +138,24 @@ const AnnouncementCard = ({ item }: { item: typeof MOCK_ANNOUNCEMENTS[0] }) => {
 
 // --- 4. MAIN VIEW COMPONENT ---
 export default function AnnouncementsView() {
-    const insets = useSafeAreaInsets();
     const unreadCount = MOCK_ANNOUNCEMENTS.filter((a) => a.isNew).length;
 
     const renderHeader = () => (
-        <View style={styles.screenHeader}>
-            <View>
-                <Text style={styles.headerSubtitle}>Latest news and updates</Text>
-            </View>
-
-            {unreadCount > 0 && (
-                <View style={styles.headerBadge}>
-                    <Text style={styles.headerBadgeText}>{unreadCount} New</Text>
-                </View>
-            )}
-        </View>
+        <TabScreenHeader
+            title="News"
+            subtitle="Latest updates"
+            right={
+                unreadCount > 0 ? (
+                    <View style={styles.headerBadge}>
+                        <Text style={styles.headerBadgeText}>{unreadCount} New</Text>
+                    </View>
+                ) : null
+            }
+        />
     );
 
     return (
         <View style={styles.root}>
-
             <View style={styles.container}>
                 <FlatList
                     data={MOCK_ANNOUNCEMENTS}
@@ -185,6 +183,7 @@ const styles = StyleSheet.create({
     listContent: {
         paddingHorizontal: 12,
         paddingBottom: TAB_BAR_OVERLAY_HEIGHT,
+        paddingTop: 0,
     },
 
     screenHeader: {
@@ -208,25 +207,33 @@ const styles = StyleSheet.create({
         backgroundColor: THEME.primary,
         paddingHorizontal: 12,
         paddingVertical: 6,
-        borderRadius: 20,
+        borderRadius: 999,
+        shadowColor: THEME.primary,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.12,
+        shadowRadius: 14,
+        elevation: 4,
     },
     headerBadgeText: {
         color: '#FFFFFF',
-        fontWeight: '700',
+        fontWeight: '800',
         fontSize: 12,
+        letterSpacing: 0.2,
     },
 
     card: {
         flexDirection: 'row',
         backgroundColor: THEME.card,
-        borderRadius: 12,
+        borderRadius: 16,
         marginBottom: 16,
         overflow: 'hidden',
-        shadowColor: '#000',
+        borderWidth: 1,
+        borderColor: 'rgba(49,46,129,0.08)',
+        shadowColor: THEME.primary,
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 8,
-        elevation: 3,
+        shadowOpacity: 0.06,
+        shadowRadius: 10,
+        elevation: 2,
     },
     cardAccent: {
         width: 6,
@@ -243,10 +250,10 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     newBadge: {
-        backgroundColor: '#4338ca',
+        backgroundColor: THEME.accent,
         paddingHorizontal: 8,
-        paddingVertical: 2,
-        borderRadius: 4,
+        paddingVertical: 3,
+        borderRadius: 6,
         marginRight: 8,
     },
     newBadgeText: {
@@ -277,12 +284,12 @@ const styles = StyleSheet.create({
     attachmentBtn: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#eff6ff',
+        backgroundColor: 'rgba(59,130,246,0.08)',
         padding: 10,
-        borderRadius: 8,
+        borderRadius: 12,
         marginBottom: 16,
         borderWidth: 1,
-        borderColor: '#dbeafe',
+        borderColor: 'rgba(59,130,246,0.14)',
     },
     attachmentText: {
         color: THEME.primary,
@@ -313,9 +320,11 @@ const styles = StyleSheet.create({
         width: 36,
         height: 36,
         borderRadius: 18,
-        backgroundColor: '#F3F4F6',
+        backgroundColor: 'rgba(49,46,129,0.06)',
         alignItems: 'center',
         justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: 'rgba(49,46,129,0.08)',
     },
     iconBtnActive: {
         backgroundColor: THEME.primary,
@@ -327,7 +336,7 @@ const styles = StyleSheet.create({
         height: 36,
         borderRadius: 18,
         borderWidth: 1,
-        borderColor: THEME.primaryLight,
+        borderColor: 'rgba(49,46,129,0.12)',
         backgroundColor: '#FFFFFF',
     },
     detailsBtnText: {

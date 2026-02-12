@@ -5,6 +5,7 @@ import type { Volunteer } from '../models/Volunteer';
 import ProfileHeaderCard from '../components/profile/ProfileHeaderCard';
 import InfoRowCard from '../components/profile/InfoRowCard';
 import { TAB_BAR_OVERLAY_HEIGHT } from '../components/navigation/CustomTabBar';
+import TabScreenHeader from '../components/navigation/TabScreenHeader';
 
 type Props = {
   volunteer: Volunteer;
@@ -75,6 +76,8 @@ export default function ProfileView({ volunteer }: Props) {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+      <TabScreenHeader title="Profile" subtitle="Your details" />
+
       <View style={styles.heroCard}>
         <ProfileHeaderCard
           fullName={fullName}
@@ -124,10 +127,11 @@ export default function ProfileView({ volunteer }: Props) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#F4F6FB',
+    backgroundColor: '#F3F4F6',
   },
   content: {
     padding: 16,
+    paddingTop: 0,
     paddingBottom: TAB_BAR_OVERLAY_HEIGHT,
   },
   heroCard: {
@@ -135,9 +139,11 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     paddingVertical: 18,
     paddingHorizontal: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(49,46,129,0.08)',
+    shadowColor: '#312e81',
+    shadowOpacity: 0.06,
+    shadowRadius: 16,
     shadowOffset: { width: 0, height: 10 },
     elevation: 3,
   },

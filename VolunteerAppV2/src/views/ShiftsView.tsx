@@ -13,6 +13,7 @@ import {
     Alert,
     PanResponder,
 } from 'react-native';
+import TabScreenHeader from '../components/navigation/TabScreenHeader';
 import { THEME as APP_THEME } from '../../app/(onboarding)/theme';
 import type { VolunteerHoursEntry } from '../models/VolunteerHours';
 import { TAB_BAR_OVERLAY_HEIGHT } from '../components/navigation/CustomTabBar';
@@ -97,11 +98,6 @@ function formatTimeLabel(timeValue: unknown): string {
 
 // --- SUB-COMPONENTS ---
 
-function Header({ isRunning }: { isRunning: boolean }) {
-    // Header removed per request.
-    return null;
-}
-
 function Card({ stripeColor, children }: { stripeColor: string; children: React.ReactNode }) {
     return (
         <View style={styles.cardOuter}>
@@ -155,7 +151,6 @@ function HistoryRow({ entry, variant }: { entry: VolunteerHoursEntry; variant: '
 
     const iconBg = isApproved ? TOKENS.approvedBg : TOKENS.pendingBg;
     const iconColor = isApproved ? TOKENS.approved : TOKENS.pending;
-    const labelColor = iconColor;
 
     return (
         <Pressable style={({ pressed }) => [styles.historyRow, pressed && { opacity: 0.7 }]}>
@@ -174,7 +169,7 @@ function HistoryRow({ entry, variant }: { entry: VolunteerHoursEntry; variant: '
 
             <View style={styles.historyRight}>
                 <Text style={styles.historyHours}>{hoursText}</Text>
-                <Text style={[styles.historyStatus, { color: labelColor }]}>
+                <Text style={[styles.historyStatus, { color: iconColor }]}>
                     {isApproved ? 'Approved' : 'Pending'}
                 </Text>
             </View>
@@ -301,12 +296,13 @@ function RunningTimerHero({ elapsedSeconds, startedLabel }: { elapsedSeconds: nu
 }
 
 function HoldToEndRail({ onComplete }: { onComplete: () => void }) {
-    // Replace hold-to-complete with a real slide gesture.
     const railWidth = useRef(0);
     const translateX = useRef(new Animated.Value(0)).current;
 
     const THUMB_SIZE = 48;
     const THUMB_MARGIN_LEFT = 2;
+
+    const startTranslateX = useRef(0);
 
     const resetThumb = () => {
         Animated.spring(translateX, {
@@ -317,36 +313,40 @@ function HoldToEndRail({ onComplete }: { onComplete: () => void }) {
         }).start();
     };
 
+    const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+    const maxX = () => Math.max(0, railWidth.current - THUMB_SIZE - THUMB_MARGIN_LEFT * 2);
+
     const panResponder = useRef(
         PanResponder.create({
+            onStartShouldSetPanResponder: () => true,
             onMoveShouldSetPanResponder: (_, gestureState) => {
-                // Horizontal intent
-                return Math.abs(gestureState.dx) > 4 && Math.abs(gestureState.dy) < 12;
+                return Math.abs(gestureState.dx) > 2 && Math.abs(gestureState.dy) < 18;
             },
+            onPanResponderTerminationRequest: () => false,
             onPanResponderGrant: () => {
-                // stop any running animations
-                translateX.stopAnimation();
+                translateX.stopAnimation((current) => {
+                    startTranslateX.current = Number(current) || 0;
+                });
             },
             onPanResponderMove: (_, gestureState) => {
-                const maxX = Math.max(0, railWidth.current - THUMB_SIZE - THUMB_MARGIN_LEFT * 2);
-                const next = Math.max(0, Math.min(maxX, gestureState.dx));
+                const m = maxX();
+                const next = clamp(startTranslateX.current + gestureState.dx, 0, m);
                 translateX.setValue(next);
             },
             onPanResponderRelease: () => {
-                const maxX = Math.max(0, railWidth.current - THUMB_SIZE - THUMB_MARGIN_LEFT * 2);
-                const threshold = maxX * 0.9;
+                const m = maxX();
+                const threshold = m * 0.8;
 
                 translateX.stopAnimation((value) => {
-                    if (value >= threshold && maxX > 0) {
+                    if (value >= threshold && m > 0) {
                         Animated.timing(translateX, {
-                            toValue: maxX,
-                            duration: 120,
+                            toValue: m,
+                            duration: 140,
                             easing: Easing.out(Easing.ease),
                             useNativeDriver: true,
                         }).start(({ finished }) => {
                             if (finished) {
                                 onComplete();
-                                // reset for next time (screen will likely switch states, but keep it safe)
                                 translateX.setValue(0);
                             }
                         });
@@ -366,12 +366,21 @@ function HoldToEndRail({ onComplete }: { onComplete: () => void }) {
                 railWidth.current = e.nativeEvent.layout.width;
             }}
         >
-            {/* track label */}
             <Text style={styles.railLabel} pointerEvents="none">
                 Slide to End Shift →
             </Text>
 
-            {/* thumb */}
+            <Animated.View
+                style={[
+                    styles.railThumbHit,
+                    {
+                        transform: [{ translateX }],
+                    },
+                ]}
+                hitSlop={{ top: 16, bottom: 16, left: 16, right: 28 }}
+                {...panResponder.panHandlers}
+            />
+
             <Animated.View
                 style={[
                     styles.railThumb,
@@ -379,7 +388,7 @@ function HoldToEndRail({ onComplete }: { onComplete: () => void }) {
                         transform: [{ translateX }],
                     },
                 ]}
-                {...panResponder.panHandlers}
+                pointerEvents="none"
             >
                 <Ionicons name="square" size={16} color={TOKENS.primaryLight} />
             </Animated.View>
@@ -396,6 +405,10 @@ export default function ShiftsView({ timer, onPressPrimary, pending, approved }:
     return (
         <View style={styles.screen}>
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+                <TabScreenHeader
+                    title="Shifts"
+                    subtitle={timer.isRunning ? 'Shift in progress' : 'Track your volunteer time'}
+                />
 
                 {/* HERO */}
                 <Card stripeColor={timer.isRunning ? TOKENS.accent : TOKENS.primary}>
@@ -486,42 +499,8 @@ const styles = StyleSheet.create({
     },
     scrollContent: {
         paddingHorizontal: 20,
-        paddingTop: 16,
+        paddingTop: 0,
         paddingBottom: TAB_BAR_OVERLAY_HEIGHT,
-    },
-
-    // Title
-    titleBlock: {
-        paddingTop: 16,
-        paddingBottom: 8,
-    },
-    screenTitle: {
-        fontSize: 34,
-        fontWeight: '800',
-        color: TOKENS.textMain,
-        letterSpacing: -0.4,
-    },
-    screenSubtitleIdle: {
-        marginTop: 6,
-        fontSize: 15,
-        color: TOKENS.textSub,
-    },
-    runningSubtitleRow: {
-        marginTop: 8,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    runningDot: {
-        width: 8,
-        height: 8,
-        borderRadius: 4,
-        backgroundColor: TOKENS.accent,
-        marginRight: 8,
-    },
-    screenSubtitleRunning: {
-        fontSize: 15,
-        fontWeight: '600',
-        color: TOKENS.accent,
     },
 
     // Cards
@@ -529,13 +508,13 @@ const styles = StyleSheet.create({
         backgroundColor: TOKENS.card,
         borderRadius: 14,
         borderWidth: 1,
-        borderColor: TOKENS.border,
+        borderColor: 'rgba(49,46,129,0.10)',
         overflow: 'hidden',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.04,
-        shadowRadius: 3,
-        elevation: 1,
+        shadowColor: TOKENS.primary,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.06,
+        shadowRadius: 10,
+        elevation: 2,
     },
     cardStripe: {
         height: 4,
@@ -554,7 +533,9 @@ const styles = StyleSheet.create({
         width: 64,
         height: 64,
         borderRadius: 32,
-        backgroundColor: TOKENS.primaryLight,
+        backgroundColor: 'rgba(49,46,129,0.08)',
+        borderWidth: 1,
+        borderColor: 'rgba(49,46,129,0.10)',
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 16,
@@ -684,19 +665,11 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 56,
         borderRadius: 16,
-        backgroundColor: 'rgba(49,46,129,0.05)',
+        backgroundColor: 'rgba(49,46,129,0.06)',
         borderWidth: 1,
-        borderColor: 'rgba(49,46,129,0.15)',
+        borderColor: 'rgba(49,46,129,0.18)',
         overflow: 'hidden',
         justifyContent: 'center',
-    },
-    railFill: {
-        // no longer used (slide is real; keep style for possible future use)
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(49,46,129,0.10)',
     },
     railLabel: {
         position: 'absolute',
@@ -705,7 +678,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 14,
         fontWeight: '600',
-        color: 'rgba(49,46,129,0.4)',
+        color: 'rgba(49,46,129,0.55)',
     },
     railThumb: {
         position: 'absolute',
@@ -723,18 +696,27 @@ const styles = StyleSheet.create({
         shadowRadius: 24,
         elevation: 3,
     },
+    railThumbHit: {
+        position: 'absolute',
+        left: 0,
+        width: 90,
+        height: 56,
+        // center the hit target around the visible thumb
+        marginLeft: -20,
+        backgroundColor: 'transparent',
+    },
 
     // QR Row
     qrRowCard: {
-        backgroundColor: TOKENS.card,
+        backgroundColor: 'rgba(59,130,246,0.06)',
         borderRadius: 14,
         borderWidth: 1,
-        borderColor: TOKENS.border,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.04,
-        shadowRadius: 3,
-        elevation: 1,
+        borderColor: 'rgba(59,130,246,0.12)',
+        shadowColor: TOKENS.accent,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.06,
+        shadowRadius: 10,
+        elevation: 2,
         paddingHorizontal: 16,
         paddingVertical: 14,
         flexDirection: 'row',
@@ -744,8 +726,8 @@ const styles = StyleSheet.create({
     qrIconWrap: {
         width: 36,
         height: 36,
-        borderRadius: 8,
-        backgroundColor: 'rgba(59,130,246,0.10)',
+        borderRadius: 10,
+        backgroundColor: 'rgba(59,130,246,0.12)',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -763,24 +745,25 @@ const styles = StyleSheet.create({
     // History
     sectionHeader: {
         fontSize: 11,
-        fontWeight: '600',
+        fontWeight: '700',
         textTransform: 'uppercase',
         letterSpacing: 1.5,
-        color: TOKENS.textSub,
+        color: TOKENS.primary,
         paddingLeft: 16,
-        paddingBottom: 6,
+        paddingBottom: 8,
+        marginTop: 2,
     },
     historyGroupCard: {
         backgroundColor: TOKENS.card,
         borderRadius: 14,
         borderWidth: 1,
-        borderColor: TOKENS.border,
+        borderColor: 'rgba(49,46,129,0.10)',
         overflow: 'hidden',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.04,
-        shadowRadius: 3,
-        elevation: 1,
+        shadowColor: TOKENS.primary,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 2,
     },
     divider: {
         height: 1,
