@@ -1,6 +1,8 @@
 // app/(onboarding)/_layout.tsx
 import React from "react";
 import { Stack } from "expo-router";
+import {useEffect}  from "react";
+import { login } from '../../src/repositories/volunteers/MockVolunteerRepository';
 
 // No persistence, no storage, wiped on app reload.
 export type OnboardingDraft = {
@@ -69,6 +71,23 @@ export default function OnboardingLayout() {
             attested: false,
         });
     }, []);
+
+    React.useEffect(() => {
+        const run = async () => {
+            try {
+                const data = await login();
+                console.log("Login successful:", data);
+            }
+            catch (e) {
+                console.error("Login failed:", e);
+
+
+            }
+        }
+        void run();
+
+    }, []);
+
 
     return (
         <OnboardingContext.Provider value={{ draft, setDraft, reset }}>

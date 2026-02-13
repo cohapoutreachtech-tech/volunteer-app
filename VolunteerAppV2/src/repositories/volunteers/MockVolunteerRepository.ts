@@ -11,6 +11,8 @@ import type { VolunteerRepository } from './VolunteerRepository';
  * - Drop sensitive/internal fields (Pass_Hash, __v, createdAt, updatedAt)
  * - Normalize "Yes"/"No" style fields where applicable
  */
+// model used for fetch
+  // differs from domain model
 type VolunteerDto = {
   _id: string;
   name?: string;
@@ -107,7 +109,7 @@ const MOCK_VOLUNTEERS_DTO: VolunteerDto[] = [
     Total_Hours_Worked__c: 0,
   },
 ];
-
+//parses yes/no to boolean
 function yesNoToBool(value: string | undefined): boolean | undefined {
   if (!value) return undefined;
   const v = value.trim().toLowerCase();
@@ -115,7 +117,7 @@ function yesNoToBool(value: string | undefined): boolean | undefined {
   if (v === 'no') return false;
   return undefined;
 }
-
+// normalizes from DTO to domain model
 function toVolunteer(dto: VolunteerDto): Volunteer {
   return {
     id: dto._id,
@@ -153,9 +155,20 @@ export class MockVolunteerRepository implements VolunteerRepository {
   async getVolunteers(): Promise<Volunteer[]> {
     return Promise.resolve(MOCK_VOLUNTEERS_DTO.map(toVolunteer));
   }
-
+//write the fetch here
   async getVolunteerById(id: string): Promise<Volunteer | null> {
     const dto = MOCK_VOLUNTEERS_DTO.find((v) => v._id === id) ?? null;
     return Promise.resolve(dto ? toVolunteer(dto) : null);
   }
+}
+export async function login(): Promise<any | null> {
+  const response = await fetch('http://10.0.0.85:4000/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+
+    body: JSON.stringify({ email: '', password: '' }),
+  });
+  return response.json();
 }
