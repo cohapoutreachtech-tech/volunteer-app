@@ -1,0 +1,1 @@
+export { registrationsRepository } from '../../../repositories';

@@ -1,0 +1,1 @@
+export { volunteerRepository } from '../../../repositories';

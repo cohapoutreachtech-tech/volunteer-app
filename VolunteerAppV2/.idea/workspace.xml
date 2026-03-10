@@ -5,13 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67207e6a-479c-41a0-b1cc-f8c5c7888c2a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/auth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/api/models/ApiAuth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/config/api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/events/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/events/repositories/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/profile/repositories/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/registrations/repositories/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/volunteerHours/repositories/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(onboarding)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(onboarding)/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repositories/volunteers/MockVolunteerRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/repositories/volunteers/MockVolunteerRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/api.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +23,14 @@
     <persistenceIdMap>
       <entry key="_/Users/ryanortiz/Desktop/Cohap/volunteer-app/VolunteerAppV2" value="38Mb9IWajiUNE1d7ErGmVTPPfbJ" />
     </persistenceIdMap>
+  </component>
+  <component name="CopilotUserSelectedModel">
+    <selectedModels>
+      <entry key="chat-panel" value="GPT-5.4" />
+      <entry key="agent-panel" value="GPT-5.4" />
+      <entry key="inline" value="GPT-5.2" />
+      <entry key="edit-panel" value="GPT-5 mini" />
+    </selectedModels>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -34,8 +43,20 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;RyanSo99&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/cohapoutreachtech-tech/volunteer-app.git&quot;,
+    &quot;accountId&quot;: &quot;858564f3-f80f-4719-aefe-8f45612c1a7f&quot;
+  }
+}</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -48,28 +69,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JavaScript Debug.localhost:8081.executor&quot;: &quot;Debug&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/ryanortiz/Desktop/Cohap/volunteer-app/VolunteerAppV2&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.keymap.KeymapConfigurable&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/ryanortiz/Desktop/Cohap/volunteer-app/VolunteerAppV2/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JavaScript Debug.localhost:8081.executor": "Debug",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "securitytokens",
+    "javascript.preferred.runtime.type.id": "node",
+    "last_opened_file_path": "/Users/ryanortiz/Desktop/Cohap/volunteer-app/VolunteerAppV2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.keymap.KeymapConfigurable",
+    "ts.external.directory.path": "/Users/ryanortiz/Desktop/Cohap/volunteer-app/VolunteerAppV2/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactBuddySettings">
     <option name="appTreeLastSelected" value="VolunteerAppV2/src/views/ProfileView.tsx" />
   </component>
@@ -100,7 +121,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.29346.242" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.30387.83" />
       </set>
     </attachedChunks>
   </component>
@@ -126,6 +147,7 @@
       <workItem from="1770786164201" duration="79000" />
       <workItem from="1770800552988" duration="16497000" />
       <workItem from="1770873963706" duration="25086000" />
+      <workItem from="1773131364269" duration="6941000" />
     </task>
     <servers />
   </component>
