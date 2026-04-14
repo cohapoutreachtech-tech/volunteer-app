@@ -3,10 +3,12 @@ import React from "react";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, TextInput, StyleSheet, Pressable, Platform, Image } from "react-native";
-import { THEME } from "./theme";
-import { ONBOARDING_SPACING } from "./layout";
+import { THEME } from "@features/onboarding/theme";
+import { ONBOARDING_SPACING } from "@features/onboarding/layout";
 
-const FONT = Platform.select({ ios: "System", android: "Roboto", default: "System" });
+const FONT = Platform.select({ ios: "", android: "Roboto", default: "System" });
+
+
 
 export default function Welcome() {
     const router = useRouter();
@@ -32,7 +34,8 @@ export default function Welcome() {
                     <Text style={styles.label}>Password</Text>
                     <TextInput style={styles.input} placeholder="••••••••" placeholderTextColor={THEME.textSub} secureTextEntry />
 
-                    <Pressable style={styles.primary} onPress={() => router.replace("/(tabs)")}>
+
+                    <Pressable style={styles.primary} onPress={() => {}}>
                         <Text style={styles.primaryText}>Sign In</Text>
                     </Pressable>
 

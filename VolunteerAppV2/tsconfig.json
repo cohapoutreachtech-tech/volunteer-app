@@ -4,6 +4,7 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
+<<<<<<< Updated upstream
       "@/*": [
         "./*"
       ],
@@ -16,6 +17,17 @@
       "@features/*": [
         "src/features/*"
       ]
+=======
+      "@/*": ["./*"],
+      "@src/*": ["src/*"],
+      "@features/*": ["src/features/*"],
+      "@core/*": ["src/core/*"],
+      "@shared/*": ["src/shared/*"],
+      "@hooks/*": ["src/shared/hooks/*"],
+      "@components/*": ["src/shared/components/*"],
+      "@constants/*": ["src/shared/constants/*"],
+      "@types/*": ["src/shared/types/*"]
+>>>>>>> Stashed changes
     }
   },
   "include": [

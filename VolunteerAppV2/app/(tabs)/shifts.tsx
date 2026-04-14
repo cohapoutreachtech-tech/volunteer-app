@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useVolunteerHours } from '../../src/hooks/useVolunteerHours';
-import ShiftsView from '../../src/views/ShiftsView';
+import { useVolunteerHours } from '../../src/features/volunteerHours/hooks/useVolunteerHours';
+import ShiftsView from '../../src/features/volunteerHours/screens/ShiftsView';
 
 const TEMP_VOLUNTEER_ID = '694f15697fa85a691e4c75a4';
 

@@ -1,7 +1,6 @@
 
-
 import React from 'react';
-import DashboardView from '../../src/views/DashboardView';
+import DashboardView from '../../src/features/events/screens/DashboardView';
 
 /**
  * This is the ROUTE file for the first tab.

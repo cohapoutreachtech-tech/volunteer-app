@@ -1,5 +1,4 @@
-// app/event/[id].tsx
-
+// Route file for displaying event details
 
 /*
 
@@ -17,8 +16,8 @@ This is the right pattern for real APIs (and works with pagination later).
 import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { Text, View } from 'react-native';
-import { useEvent } from '../../src/hooks/useEvent';
-import EventDetailView from '../../src/views/EventDetailsView';
+import { useEvent } from '../../src/features/events/hooks/useEvent';
+import EventDetailView from '../../src/features/events/screens/EventDetailsView';
 
 export default function EventDetailRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();

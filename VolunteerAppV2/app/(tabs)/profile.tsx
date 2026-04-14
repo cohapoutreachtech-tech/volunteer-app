@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useVolunteer } from '../../src/hooks/useVolunteer';
-import ProfileView from '../../src/views/ProfileView';
-import { useVolunteerHoursSummary } from '../../src/hooks/useVolunteerHoursSummary';
+import { useVolunteer } from '../../src/features/profile/hooks/useVolunteer';
+import ProfileView from '../../src/features/profile/screens/ProfileView';
+import { useVolunteerHoursSummary } from '../../src/features/volunteerHours/hooks/useVolunteerHoursSummary';
 
 /**
  * Temporary: hardcoded volunteer id until auth is implemented.

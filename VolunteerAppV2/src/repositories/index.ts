@@ -10,27 +10,14 @@
 
 // src/repositories/index.ts
 
-import { MockEventsRepository } from './events/MockEventsRepository';
-import type { EventsRepository } from './events/EventsRepository';
+export { eventsRepository } from '@features/events/repositories';
+export { volunteerRepository } from '@features/profile/repositories';
+export { registrationsRepository } from '@features/registrations/repositories';
+export { volunteerHoursRepository } from '@features/volunteerHours/repositories';
 
-import { MockVolunteerRepository } from './volunteers/MockVolunteerRepository';
-import type { VolunteerRepository } from './volunteers/VolunteerRepository';
-
-import { MockRegistrationsRepository } from './registrations/MockRegistrationsRepository';
-import type { RegistrationsRepository } from './registrations/RegistrationsRepository';
-
-import { MockVolunteerHoursRepository } from './volunteerHours/MockVolunteerHoursRepository';
-import type { VolunteerHoursRepository } from './volunteerHours/VolunteerHoursRepository';
-
-// Existing
-export const eventsRepository: EventsRepository = new MockEventsRepository();
-export const volunteerRepository: VolunteerRepository = new MockVolunteerRepository();
-
-// New
-export const registrationsRepository: RegistrationsRepository =
-    new MockRegistrationsRepository();
-
-export const volunteerHoursRepository: VolunteerHoursRepository =
-    new MockVolunteerHoursRepository();
+export type { EventsRepository } from '@features/events/repositories/EventsRepository';
+export type { VolunteerRepository } from '@features/profile/repositories/VolunteerRepository';
+export type { RegistrationsRepository } from '@features/registrations/repositories/RegistrationsRepository';
+export type { VolunteerHoursRepository } from '@features/volunteerHours/repositories/VolunteerHoursRepository';
 
 
