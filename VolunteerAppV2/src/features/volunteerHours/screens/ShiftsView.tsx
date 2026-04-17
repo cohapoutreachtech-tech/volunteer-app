@@ -14,7 +14,7 @@ import {
     PanResponder,
 } from 'react-native';
 import TabScreenHeader from '@shared/components/TabScreenHeader';
-import { THEME as APP_THEME } from '../../../../app/(onboarding)/theme';
+import { THEME as APP_THEME } from '@features/onboarding/theme';
 import type { VolunteerHoursEntry } from '../models/VolunteerHours';
 import { TAB_BAR_OVERLAY_HEIGHT } from '@shared/components/CustomTabBar';
 

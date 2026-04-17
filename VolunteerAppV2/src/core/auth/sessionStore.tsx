@@ -1,6 +1,7 @@
 // src/core/auth/sessionStore.tsx
 // Global session state for authentication and bootstrapping
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { authEvents } from './authEvents';
 
 export type SessionStatus = 'bootstrapping' | 'authenticated' | 'unauthenticated';
@@ -37,9 +38,9 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     <SessionContext.Provider value={{ status, setStatus }}>
       {/* DEV: Show session status for testing */}
       {__DEV__ && (
-        <div style={{ position: 'absolute', top: 0, left: 0, background: '#eee', zIndex: 9999, padding: 4, fontSize: 12 }}>
-          Session: {status}
-        </div>
+        <View style={styles.devBadge} pointerEvents="none">
+          <Text style={styles.devBadgeText}>Session: {status}</Text>
+        </View>
       )}
       {children}
     </SessionContext.Provider>
@@ -51,3 +52,20 @@ export function useSession() {
   if (!ctx) throw new Error('useSession must be used within a SessionProvider');
   return ctx;
 }
+
+const styles = StyleSheet.create({
+  devBadge: {
+    position: 'absolute',
+    top: 6,
+    left: 6,
+    backgroundColor: '#eee',
+    zIndex: 9999,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  devBadgeText: {
+    fontSize: 11,
+    color: '#111',
+  },
+});

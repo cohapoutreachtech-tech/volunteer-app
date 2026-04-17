@@ -4,20 +4,6 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-<<<<<<< Updated upstream
-      "@/*": [
-        "./*"
-      ],
-      "@shared/*": [
-        "src/shared/*"
-      ],
-      "@core/*": [
-        "src/core/*"
-      ],
-      "@features/*": [
-        "src/features/*"
-      ]
-=======
       "@/*": ["./*"],
       "@src/*": ["src/*"],
       "@features/*": ["src/features/*"],
@@ -27,7 +13,6 @@
       "@components/*": ["src/shared/components/*"],
       "@constants/*": ["src/shared/constants/*"],
       "@types/*": ["src/shared/types/*"]
->>>>>>> Stashed changes
     }
   },
   "include": [

@@ -1,10 +1,11 @@
 // app/(onboarding)/index.tsx
-import React from "react";
+import React, {useState} from "react";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, TextInput, StyleSheet, Pressable, Platform, Image } from "react-native";
 import { THEME } from "@features/onboarding/theme";
 import { ONBOARDING_SPACING } from "@features/onboarding/layout";
+import {useLoginMutation} from "@features/auth/hooks/useLoginMutation";
 
 const FONT = Platform.select({ ios: "", android: "Roboto", default: "System" });
 
@@ -12,6 +13,15 @@ const FONT = Platform.select({ ios: "", android: "Roboto", default: "System" });
 
 export default function Welcome() {
     const router = useRouter();
+    const login = useLoginMutation();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    React.useEffect(() => {
+        console.log('[Welcome] email:', email);
+        console.log('[Welcome] password:', password);
+    }, [email, password]);
+
 
     return (
         <SafeAreaView style={styles.screen} edges={["top", "left", "right"]}>
@@ -29,17 +39,22 @@ export default function Welcome() {
 
                 <View style={styles.form}>
                     <Text style={styles.label}>Email</Text>
-                    <TextInput style={styles.input} placeholder="name@email.com" placeholderTextColor={THEME.textSub} />
+                    <TextInput style={styles.input} placeholder="name@email.com" placeholderTextColor={THEME.textSub}
+                    value={email}
+                    onChangeText={setEmail}/>
 
                     <Text style={styles.label}>Password</Text>
-                    <TextInput style={styles.input} placeholder="••••••••" placeholderTextColor={THEME.textSub} secureTextEntry />
+                    <TextInput style={styles.input} placeholder="••••••••" placeholderTextColor={THEME.textSub} secureTextEntry
+                    value={password}
+                    onChangeText={setPassword}
+                    />
 
 
-                    <Pressable style={styles.primary} onPress={() => {}}>
+                    <Pressable style={styles.primary} onPress={() => login.mutate({ email, password })}>
                         <Text style={styles.primaryText}>Sign In</Text>
                     </Pressable>
 
-                    <Pressable style={styles.secondary} onPress={() => router.push("/(onboarding)/create-account")}>
+                    <Pressable style={styles.secondary} onPress={() => router.push("/(onboarding)")}>
                         <Text style={styles.secondaryText}>Create An Account</Text>
                     </Pressable>
                 </View>
