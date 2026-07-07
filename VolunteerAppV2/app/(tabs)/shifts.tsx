@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useSession } from '../../src/core/auth/sessionStore';
 import { useVolunteerHours } from '../../src/features/volunteerHours/hooks/useVolunteerHours';
 import ShiftsView from '../../src/features/volunteerHours/screens/ShiftsView';
-
-const TEMP_VOLUNTEER_ID = '694f15697fa85a691e4c75a4';
 
 function formatStartLabel(date: Date): string {
     return date.toLocaleTimeString([], {
@@ -13,8 +12,9 @@ function formatStartLabel(date: Date): string {
 }
 
 export default function ShiftsScreen() {
-    const { entries, isLoading, error, refetch } =
-        useVolunteerHours(TEMP_VOLUNTEER_ID);
+    const { volunteerId } = useSession();
+    const { data: entries = [], isLoading, error, refetch } =
+        useVolunteerHours(volunteerId ?? undefined);
 
     // Timer state
     const [isRunning, setIsRunning] = useState(false);
@@ -67,7 +67,7 @@ export default function ShiftsScreen() {
     if (error) {
         return (
             <View style={styles.center}>
-                <Text>{error}</Text>
+                <Text>{error.message}</Text>
                 <Text style={styles.retry} onPress={() => void refetch()}>
                     Tap to retry
                 </Text>

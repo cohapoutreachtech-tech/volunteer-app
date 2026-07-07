@@ -8,7 +8,7 @@ import TabScreenHeader from '@shared/components/TabScreenHeader';
 
 const DashboardView = () => {
   const router = useRouter();
-  const { events, isLoading, error, refetch } = useEvents();
+  const { data: events = [], isLoading, isFetching, error, refetch } = useEvents();
 
   const handleCardPress = (eventId: string) => {
     router.push(`/event/${eventId}`);
@@ -29,7 +29,7 @@ const DashboardView = () => {
   if (error) {
     return (
         <View style={styles.center}>
-          <Text style={styles.errorText}>{error}</Text>
+          <Text style={styles.errorText}>{error.message}</Text>
           <Text style={styles.retryText} onPress={() => void refetch()}>
             Tap to retry
           </Text>
@@ -48,7 +48,7 @@ const DashboardView = () => {
             ListHeaderComponent={DashboardHeader}
             contentContainerStyle={styles.listContent}
             refreshControl={
-              <RefreshControl refreshing={isLoading} onRefresh={() => void refetch()} />
+              <RefreshControl refreshing={isFetching} onRefresh={() => void refetch()} />
             }
         />
       </View>

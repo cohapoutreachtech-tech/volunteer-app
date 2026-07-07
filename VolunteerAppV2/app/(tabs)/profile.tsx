@@ -1,23 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useSession } from '../../src/core/auth/sessionStore';
 import { useVolunteer } from '../../src/features/profile/hooks/useVolunteer';
 import ProfileView from '../../src/features/profile/screens/ProfileView';
 import { useVolunteerHoursSummary } from '../../src/features/volunteerHours/hooks/useVolunteerHoursSummary';
 
-/**
- * Temporary: hardcoded volunteer id until auth is implemented.
- * This should be replaced later by "current user" logic.
- */
-const TEMP_VOLUNTEER_ID = '694f15697fa85a691e4c75a4';
-
 export default function ProfileScreen() {
-  const { volunteer, isLoading, error, refetch } = useVolunteer(TEMP_VOLUNTEER_ID);
+  const { volunteerId } = useSession();
+  const { data: volunteer, isLoading, error, refetch } = useVolunteer(volunteerId ?? undefined);
     const {
-    summary,
+    data: summary,
     isLoading: isSummaryLoading,
     error: summaryError,
     refetch: refetchSummary,
-  } = useVolunteerHoursSummary(TEMP_VOLUNTEER_ID);
+  } = useVolunteerHoursSummary(volunteerId ?? undefined);
 
 
   if (isLoading || isSummaryLoading) {
@@ -31,7 +27,7 @@ export default function ProfileScreen() {
   if (!volunteer) {
     return (
         <View style={styles.center}>
-          <Text>{error ?? summaryError ?? 'Profile not found'}</Text>
+          <Text>{error?.message ?? summaryError?.message ?? 'Profile not found'}</Text>
           <Text
               style={styles.retry}
               onPress={() => {

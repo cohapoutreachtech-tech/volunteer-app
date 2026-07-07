@@ -4,15 +4,17 @@ export interface LoginRequestDto {
   password: string;
 }
 
+export interface VolunteerDto {
+  id: string;
+  Email__c: string;
+  First_Name__c: string;
+  Last_Name__c: string;
+  Status__c: string;
+}
+
 export interface LoginResponseDto {
   token: string;
-  volunteer: {
-    id: string;
-    Email__c: string;
-    First_Name__c: string;
-    Last_Name__c: string;
-    Status__c: string;
-  };
+  volunteer: VolunteerDto;
 }
 
 

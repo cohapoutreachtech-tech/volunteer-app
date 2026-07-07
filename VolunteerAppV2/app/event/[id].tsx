@@ -21,7 +21,7 @@ import EventDetailView from '../../src/features/events/screens/EventDetailsView'
 
 export default function EventDetailRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { event, isLoading, error, refetch } = useEvent(id);
+  const { data: event, isLoading, error, refetch } = useEvent(id);
 
   if (isLoading) {
     return (
@@ -34,7 +34,7 @@ export default function EventDetailRoute() {
   if (!event) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 }}>
-        <Text style={{ marginBottom: 8 }}>{error ?? 'Event not found'}</Text>
+        <Text style={{ marginBottom: 8 }}>{error?.message ?? 'Event not found'}</Text>
         <Text style={{ textDecorationLine: 'underline' }} onPress={() => void refetch()}>
           Tap to retry
         </Text>

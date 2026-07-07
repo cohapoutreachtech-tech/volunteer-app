@@ -5,14 +5,16 @@ export const LoginRequestSchema = z.object({
   password: z.string().min(1),
 });
 
+export const VolunteerSchema = z.object({
+  id: z.string(),
+  Email__c: z.string().email(),
+  First_Name__c: z.string(),
+  Last_Name__c: z.string(),
+  Status__c: z.string(),
+});
+
 export const LoginResponseSchema = z.object({
   token: z.string().min(1),
-  volunteer: z.object({
-    id: z.string(),
-    Email__c: z.string().email(),
-    First_Name__c: z.string(),
-    Last_Name__c: z.string(),
-    Status__c: z.string(),
-  }),
+  volunteer: VolunteerSchema,
 });
 

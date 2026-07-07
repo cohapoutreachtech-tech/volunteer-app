@@ -68,6 +68,35 @@ import { authEvents } from '../auth/authEvents';
  * - Ensures all requests are routed to the correct backend.
  */
 import { API_BASE_URL } from '../config/env';
+
+// -----------------------------
+// Section: Normalized API Error
+// -----------------------------
+/**
+ * ApiError: a real Error subclass carrying the normalized fields.
+ * - Callers commonly do `e instanceof Error ? e.message : fallback`; rejecting
+ *   with a plain object (as this used to) meant that check always failed and
+ *   the real backend/network message was silently dropped.
+ */
+export class ApiError extends Error {
+  status: number | null;
+  isNetworkError: boolean;
+  isTimeout: boolean;
+  original?: unknown;
+
+  constructor(
+    message: string,
+    opts: { status: number | null; isNetworkError: boolean; isTimeout: boolean; original?: unknown }
+  ) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = opts.status;
+    this.isNetworkError = opts.isNetworkError;
+    this.isTimeout = opts.isTimeout;
+    this.original = opts.original;
+  }
+}
+
 // -----------------------------
 // Section: Token Write Serialization
 // -----------------------------
@@ -245,13 +274,14 @@ httpClient.interceptors.response.use(
 
       // 403 Forbidden: do NOT logout, just pass error up
       // All other errors: normalize and pass up
-      return Promise.reject({
-        status,
-        message,
-        isNetworkError,
-        isTimeout,
-        ...(__DEV__ ? { original: error } : {}),
-      });
+      return Promise.reject(
+        new ApiError(message, {
+          status,
+          isNetworkError,
+          isTimeout,
+          ...(__DEV__ ? { original: error } : {}),
+        })
+      );
     }
 );
 

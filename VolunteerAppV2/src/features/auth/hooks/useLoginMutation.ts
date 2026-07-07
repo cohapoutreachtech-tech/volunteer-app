@@ -6,7 +6,7 @@ import * as runtimeTokenCache from '../../../core/auth/runtimeTokenCache';
 import { useSession } from '../../../core/auth/sessionStore';
 
 export function useLoginMutation() {
-  const { setStatus } = useSession();
+  const { markAuthenticated } = useSession();
 
 
   return useMutation({
@@ -19,7 +19,7 @@ export function useLoginMutation() {
       // this is defined in secureTokenStore and uses Expo SecureStore under the hood
       await secureTokenStore.setToken(dto.token);
       runtimeTokenCache.set(dto.token);
-      setStatus('authenticated');
+      markAuthenticated(dto.volunteer.id);
       console.log('[useLoginMutation] token stored and status set');
       return mapLoginResponseDtoToDomain(dto);
     },

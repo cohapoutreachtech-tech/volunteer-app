@@ -1,20 +1,38 @@
 // src/core/auth/sessionStore.tsx
 // Global session state for authentication and bootstrapping
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useQueryClient } from '@tanstack/react-query';
 import { authEvents } from './authEvents';
 
 export type SessionStatus = 'bootstrapping' | 'authenticated' | 'unauthenticated';
 
 interface SessionContextValue {
   status: SessionStatus;
-  setStatus: (status: SessionStatus) => void;
+  volunteerId: string | null;
+  markAuthenticated: (volunteerId: string) => void;
+  markUnauthenticated: () => void;
 }
 
 const SessionContext = createContext<SessionContextValue | undefined>(undefined);
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<SessionStatus>('bootstrapping');
+  const [volunteerId, setVolunteerId] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+
+  const markAuthenticated = useCallback((id: string) => {
+    setVolunteerId(id);
+    setStatus('authenticated');
+  }, []);
+
+  const markUnauthenticated = useCallback(() => {
+    setVolunteerId(null);
+    setStatus('unauthenticated');
+    // Session ended: don't let the next signed-in user see a previous
+    // volunteer's cached queries.
+    queryClient.clear();
+  }, [queryClient]);
 
   useEffect(() => {
     console.log('[SessionProvider] Mounted');
@@ -27,15 +45,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const handler = () => {
-      console.log('[SessionProvider] Received auth:failure event, setting status to unauthenticated');
-      setStatus('unauthenticated');
+      console.log('[SessionProvider] Received auth:failure event, marking unauthenticated');
+      markUnauthenticated();
     };
     authEvents.on('auth:failure', handler);
     return () => authEvents.off('auth:failure', handler);
-  }, []);
+  }, [markUnauthenticated]);
 
   return (
-    <SessionContext.Provider value={{ status, setStatus }}>
+    <SessionContext.Provider value={{ status, volunteerId, markAuthenticated, markUnauthenticated }}>
       {/* DEV: Show session status for testing */}
       {__DEV__ && (
         <View style={styles.devBadge} pointerEvents="none">
